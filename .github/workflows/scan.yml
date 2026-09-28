@@ -1,0 +1,34 @@
+name: scan-ksu
+on: workflow_dispatch
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: mpaujiah-ctrl/android_kernel_xiaomi_crdroid
+          ref: "16.0"
+          path: crdroid
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: mpaujiah-ctrl/<NAMA-REPO-EVOX-FORK>
+          ref: <BRANCH-EVOX>
+          path: evox
+          fetch-depth: 1
+      - name: Scan
+        run: |
+          PAT='ksu_|susfs|CONFIG_KSU|CONFIG_KERNELSU'
+          cd crdroid
+          git grep -lE "$PAT" -- ':!drivers/kernelsu' | sort > ../crdroid.txt
+          echo "::group::crdroid: file list"; cat ../crdroid.txt; echo "::endgroup::"
+          echo "::group::crdroid: drivers/kernelsu"; ls drivers/kernelsu drivers/kernelsu/hook; echo "::endgroup::"
+          echo "::group::crdroid: baris hook per file"
+          git grep -nE "$PAT" -- ':!drivers/kernelsu' ':!fs/susfs.c' ':!include/linux/susfs*'
+          echo "::endgroup::"
+          cd ../evox
+          git grep -lE "$PAT" -- ':!drivers/kernelsu' | sort > ../evox.txt || true
+          echo "::group::evox: file list"; cat ../evox.txt; echo "::endgroup::"
+          echo "::group::DIFF crdroid vs evox (< hanya di crdroid, > hanya di evox)"
+          diff ../crdroid.txt ../evox.txt || true
+          echo "::endgroup::"
