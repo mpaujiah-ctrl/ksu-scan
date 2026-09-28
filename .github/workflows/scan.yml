@@ -32,3 +32,22 @@ jobs:
           echo "::group::DIFF crdroid vs evox (< hanya di crdroid, > hanya di evox)"
           diff ../crdroid.txt ../evox.txt || true
           echo "::endgroup::"
+      - name: Detail
+        run: |
+          cd crdroid
+          echo "::group::crdroid hook (bagian tengah)"
+          git grep -n -B2 -A8 -E "ksu_|susfs|CONFIG_KSU" -- fs/namespace.c fs/notify/fdinfo.c fs/open.c fs/proc fs/proc_namespace.c fs/read_write.c fs/readdir.c fs/stat.c fs/statfs.c fs/super.c include/linux/mount.h include/linux/sched.h || true
+          echo "::endgroup::"
+          echo "::group::definisi hook di drivers/kernelsu"
+          grep -rnE "ksu_handle_(execveat|setresuid|sys_reboot|input_handle_event)|ksu_input_hook" drivers/kernelsu | grep -v "extern" || true
+          echo "::endgroup::"
+          echo "::group::Kconfig KSU"
+          grep -nE "^config|TAMPER|MANUAL|HOOK" drivers/kernelsu/Kconfig || true
+          echo "::endgroup::"
+          echo "::group::crdroid drivers/Kconfig"
+          grep -n "kernelsu" drivers/Kconfig || true
+          echo "::endgroup::"
+          cd ../evox
+          echo "::group::evox drivers/Kconfig"
+          grep -n "kernelsu" drivers/Kconfig || true
+          echo "::endgroup::"
