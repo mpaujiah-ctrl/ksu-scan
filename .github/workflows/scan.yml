@@ -51,3 +51,14 @@ jobs:
           echo "::group::evox drivers/Kconfig"
           grep -n "kernelsu" drivers/Kconfig || true
           echo "::endgroup::"
+      - name: Detail2
+        run: |
+          F="fs/namespace.c fs/notify/fdinfo.c fs/open.c fs/proc/base.c fs/proc/cmdline.c fs/proc/fd.c fs/proc/task_mmu.c fs/proc_namespace.c fs/read_write.c fs/readdir.c fs/stat.c fs/statfs.c fs/namei.c"
+          P='ksu_|susfs|CONFIG_KSU'
+          { echo "##### CRDROID"; cd crdroid; git grep -n -B1 -A6 -E "$P" -- $F || true; cd ..
+            echo "##### EVOX";    cd evox;    git grep -n -B1 -A6 -E "$P" -- $F drivers/input/input.c kernel/sys.c kernel/reboot.c fs/exec.c || true
+          } > hasil.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hasil
+          path: hasil.txt
