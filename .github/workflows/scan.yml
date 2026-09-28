@@ -12,8 +12,8 @@ jobs:
           fetch-depth: 1
       - uses: actions/checkout@v4
         with:
-          repository: mpaujiah-ctrl/<NAMA-REPO-EVOX-FORK>
-          ref: <BRANCH-EVOX>
+          repository: mpaujiah-ctrl/kernel_xiaomi_cepheus_EVOX
+          ref: "bka"
           path: evox
           fetch-depth: 1
       - name: Scan
