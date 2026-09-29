@@ -249,6 +249,17 @@ jobs:
           diff <(ls crdroid/$D) <(ls evox/$D) || true
           echo "::endgroup::"
       
+      - name: Detail12
+        run: |
+          F="arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi"
+          G="arch/arm64/boot/dts/qcom/sm8150-audio.dtsi"
+          echo "::group::diff sm8150-audio-overlay.dtsi"
+          diff crdroid/$F evox/$F
+          echo "::endgroup::"
+          echo "::group::diff sm8150-audio.dtsi"
+          diff crdroid/$G evox/$G
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
