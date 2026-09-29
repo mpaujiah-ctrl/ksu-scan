@@ -213,6 +213,23 @@ jobs:
           cd evox; grep -rnE "$P" arch/arm64/configs/vendor/ 2>/dev/null; cd ..
           echo "::endgroup::"
       
+      - name: Detail10
+        run: |
+          F=$(cd crdroid && git grep -rl "cirrus,cs35l41" -- sound/ drivers/ 2>/dev/null | grep -v "\.dts")
+          echo "File driver: $F"
+          echo "::group::CRDROID - ukuran & baris DSP-related"
+          cd crdroid
+          wc -l $F
+          grep -n "wmfw\|dsp1\|DSP1\|request_firmware\|wm_adsp" $F | head -30
+          cd ..
+          echo "::endgroup::"
+          echo "::group::EVOX - ukuran & baris DSP-related"
+          cd evox
+          wc -l $F
+          grep -n "wmfw\|dsp1\|DSP1\|request_firmware\|wm_adsp" $F | head -30
+          cd ..
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
