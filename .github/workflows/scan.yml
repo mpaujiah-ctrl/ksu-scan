@@ -51,6 +51,20 @@ jobs:
           echo "::group::evox drivers/Kconfig"
           grep -n "kernelsu" drivers/Kconfig || true
           echo "::endgroup::"
+    
+      - name: FindKsuConfig
+        run: |
+          cd crdroid
+          echo "::group::default value di Kconfig"
+          grep -n "default" drivers/kernelsu/Kconfig
+          echo "::endgroup::"
+          echo "::group::file .config yang menyebut KSU"
+          grep -rln "CONFIG_KSU" --include="*.config" --include="*defconfig*" . || echo "tidak ada"
+          echo "::endgroup::"
+          echo "::group::workflow build asli (kalau ada)"
+          find . -iname "*.yml" -path "*workflows*" -exec grep -l "CONFIG_KSU\|merge_config" {} \;
+          echo "::endgroup::"
+     
       - name: Detail2
         run: |
           F="fs/namespace.c fs/notify/fdinfo.c fs/open.c fs/proc/base.c fs/proc/cmdline.c fs/proc/fd.c fs/proc/task_mmu.c fs/proc_namespace.c fs/read_write.c fs/readdir.c fs/stat.c fs/statfs.c fs/namei.c"
