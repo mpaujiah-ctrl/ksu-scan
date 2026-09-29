@@ -90,21 +90,42 @@ jobs:
          
       - name: Detail 5
         run: | 
+            FILES=(
+            "arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dts"
+            "arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150-audio.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150-gpu.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150-v2.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150.dtsi"
+          )
+  
+          echo "=== CHECKING CRDROID ==="
           cd crdroid
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dts
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-gpu.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-v2.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150.dtsi
-
-          cd ../evox          
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dts
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-gpu.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-v2.dtsi
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150.dtsi
+          for file in "${FILES[@]}"; do
+            if [ -f "$file" ]; then
+              if grep -q "tas2557@4c" "$file"; then
+                echo "[ADA] $file"
+              else
+                echo "[TIDAK ADA] $file"
+              fi
+            else
+              echo "[FILE TIDAK DITEMUKAN] $file"
+            fi
+          done
+  
+          echo -e "\n=== CHECKING EVOX ==="
+          cd ../evox
+          for file in "${FILES[@]}"; do
+            if [ -f "$file" ]; then
+              if grep -q "tas2557@4c" "$file"; then
+                echo "[ADA] $file"
+              else
+                echo "[TIDAK ADA] $file"
+              fi
+            else
+              echo "[FILE TIDAK DITEMUKAN] $file"
+            fi
+          done
      
       - uses: actions/upload-artifact@v4
         with:
