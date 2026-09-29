@@ -178,6 +178,16 @@ jobs:
           git grep -rl "tas2557@4c" -- arch/arm64/boot/dts/ || echo "tidak ketemu"
           git grep -rln "tas2557" -- arch/arm64/boot/dts/ || echo "tidak ketemu sama sekali"
       
+      - name: Detail7
+        run: |
+          F="arch/arm64/boot/dts/qcom/xiaomi/overlay/cepheus/cepheus-sm8150.dtsi"
+          echo "::group::CRDROID - tas2557@4c"
+          grep -n -B2 -A20 "tas2557@4c" crdroid/$F
+          echo "::endgroup::"
+          echo "::group::EVOX - tas2557@4c"
+          grep -n -B2 -A20 "tas2557@4c" evox/$F
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
