@@ -165,6 +165,19 @@ jobs:
             echo ""
           done
       
+      - name: Detail6
+        run: |
+          echo "=== CRDROID ==="
+          cd crdroid
+          git grep -rl "tas2557@4c" -- arch/arm64/boot/dts/ || echo "tidak ketemu"
+          echo "--- kalau nama alamat i2c beda, coba pola lebih longgar ---"
+          git grep -rln "tas2557" -- arch/arm64/boot/dts/ || echo "tidak ketemu sama sekali"
+          cd ..
+          echo "=== EVOX ==="
+          cd evox
+          git grep -rl "tas2557@4c" -- arch/arm64/boot/dts/ || echo "tidak ketemu"
+          git grep -rln "tas2557" -- arch/arm64/boot/dts/ || echo "tidak ketemu sama sekali"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
