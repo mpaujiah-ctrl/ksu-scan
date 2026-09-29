@@ -188,6 +188,21 @@ jobs:
           grep -n -B2 -A20 "tas2557@4c" evox/$F
           echo "::endgroup::"
       
+      - name: Detail8
+        run: |
+          echo "::group::CRDROID - semua yang menyebut cdc-reset-gpio atau tas2557"
+          cd crdroid
+          git grep -n "cdc-reset-gpio" -- arch/arm64/boot/dts/ || echo "tidak ketemu"
+          git grep -rn "tas2557" -- arch/arm64/boot/dts/ | grep -v "cepheus-sm8150.dtsi"
+          cd ..
+          echo "::endgroup::"
+          echo "::group::EVOX - semua yang menyebut cdc-reset-gpio atau tas2557"
+          cd evox
+          git grep -n "cdc-reset-gpio" -- arch/arm64/boot/dts/ || echo "tidak ketemu"
+          git grep -rn "tas2557" -- arch/arm64/boot/dts/ | grep -v "cepheus-sm8150.dtsi"
+          cd ..
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
