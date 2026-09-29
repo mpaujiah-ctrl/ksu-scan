@@ -91,7 +91,7 @@ jobs:
       - name: Detail 5
         run: | 
           cd crdroid
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dtsi
+          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dts
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio.dtsi
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-gpu.dtsi
@@ -99,7 +99,7 @@ jobs:
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150.dtsi
 
           cd ../evox          
-          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dtsi
+          grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dts
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-audio.dtsi
           grep -rl "tas2557@4c" arch/arm64/boot/dts/qcom/sm8150-gpu.dtsi
