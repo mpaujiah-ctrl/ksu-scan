@@ -260,6 +260,19 @@ jobs:
           diff crdroid/$G evox/$G
           echo "::endgroup::"
       
+      - name: Detail13
+        run: |
+          F="arch/arm64/configs/vendor/sm8150-perf_defconfig arch/arm64/configs/vendor/xiaomi/sm8150-common.config arch/arm64/configs/vendor/xiaomi/cepheus.config"
+          echo "::group::CRDROID semua baris CONFIG_SND"
+          cd crdroid; grep -h "CONFIG_SND" $F | sort > ../c_snd.txt; cd ..
+          echo "::endgroup::"
+          echo "::group::EVOX semua baris CONFIG_SND"
+          cd evox; grep -h "CONFIG_SND" $F | sort > ../e_snd.txt; cd ..
+          echo "::endgroup::"
+          echo "::group::DIFF"
+          diff c_snd.txt e_snd.txt || true
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
