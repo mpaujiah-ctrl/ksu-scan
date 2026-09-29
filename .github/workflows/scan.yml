@@ -273,6 +273,23 @@ jobs:
           diff c_snd.txt e_snd.txt || true
           echo "::endgroup::"
       
+      - name: Detail14
+        run: |
+          echo "::group::cari file machine driver sm8150 asoc"
+          cd crdroid
+          FM=$(git grep -l "sm8150-asoc-snd\|Max WSA devices is" -- '*.c' 2>/dev/null | head -3 || true)
+          echo "File ditemukan: $FM"
+          cd ..
+          echo "::endgroup::"
+          for f in $FM; do
+            echo "::group::wc -l crdroid/$f vs evox/$f"
+            wc -l crdroid/$f evox/$f 2>/dev/null || echo "salah satu tidak ada"
+            echo "::endgroup::"
+            echo "::group::diff $f"
+            diff crdroid/$f evox/$f || true
+            echo "::endgroup::"
+          done
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
