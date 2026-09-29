@@ -215,18 +215,24 @@ jobs:
       
       - name: Detail10
         run: |
-          F=$(cd crdroid && git grep -rl "cirrus,cs35l41" -- sound/ drivers/ 2>/dev/null | grep -v "\.dts")
-          echo "File driver: $F"
-          echo "::group::CRDROID - ukuran & baris DSP-related"
+          echo "::group::cari file driver cs35l41 (.c) di CRDROID"
           cd crdroid
-          wc -l $F
-          grep -n "wmfw\|dsp1\|DSP1\|request_firmware\|wm_adsp" $F | head -30
+          FC=$(git grep -l "cirrus,cs35l41" -- '*.c' 2>/dev/null | head -1 || true)
+          echo "File ditemukan: $FC"
+          if [ -n "$FC" ]; then
+            wc -l "$FC"
+            grep -n "wmfw\|dsp1\|DSP1\|request_firmware\|wm_adsp" "$FC" | head -30 || echo "(tidak ada baris cocok)"
+          fi
           cd ..
           echo "::endgroup::"
-          echo "::group::EVOX - ukuran & baris DSP-related"
+          echo "::group::cari file driver cs35l41 (.c) di EVOX"
           cd evox
-          wc -l $F
-          grep -n "wmfw\|dsp1\|DSP1\|request_firmware\|wm_adsp" $F | head -30
+          FE=$(git grep -l "cirrus,cs35l41" -- '*.c' 2>/dev/null | head -1 || true)
+          echo "File ditemukan: $FE"
+          if [ -n "$FE" ]; then
+            wc -l "$FE"
+            grep -n "wmfw\|dsp1\|DSP1\|request_firmware\|wm_adsp" "$FE" | head -30 || echo "(tidak ada baris cocok)"
+          fi
           cd ..
           echo "::endgroup::"
       
