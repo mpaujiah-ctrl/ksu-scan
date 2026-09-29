@@ -127,6 +127,44 @@ jobs:
               fi
             done
      
+      - name: Compare Files Between Repos
+        run: |
+          FILES=(
+            "arch/arm64/boot/dts/qcom/cepheus-sm8150-overlay.dts"
+            "arch/arm64/boot/dts/qcom/sm8150-audio-overlay.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150-audio.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150-gpu.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150-v2.dtsi"
+            "arch/arm64/boot/dts/qcom/sm8150.dtsi"
+          )
+  
+          for file in "${FILES[@]}"; do
+            echo "=================================================="
+            echo "Membandingkan: $file"
+            echo "=================================================="
+  
+            FILE_CRDROID="crdroid/$file"
+            FILE_EVOX="evox/$file"
+  
+            # Cek keberadaan kedua file
+            if [ ! -f "$FILE_CRDROID" ] || [ ! -f "$FILE_EVOX" ]; then
+              [ ! -f "$FILE_CRDROID" ] && echo "[TIDAK DITEMUKAN IN CRDROID] $FILE_CRDROID"
+              [ ! -f "$FILE_EVOX" ] && echo "[TIDAK DITEMUKAN IN EVOX] $FILE_EVOX"
+              continue
+            fi
+  
+            # Bandingkan file menggunakan diff -u
+            if diff -u "$FILE_CRDROID" "$FILE_EVOX" > diff_output.txt; then
+              echo "[SAMA] Isi file identik di kedua repo."
+            else
+              echo "[BERBEDA] Ditemukan perbedaan isi file:"
+              echo "--------------------------------------------------"
+              cat diff_output.txt
+              echo "--------------------------------------------------"
+            fi
+            echo ""
+          done
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
