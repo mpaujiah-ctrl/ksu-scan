@@ -85,6 +85,7 @@ jobs:
           echo "::group::crdroid_tz.txt"; cat crdroid_tz.txt; echo "::endgroup::"
           echo "::group::evox_tz.txt"; cat evox_tz.txt; echo "::endgroup::"
           echo "::group::DIFF"; diff crdroid_tz.txt evox_tz.txt || true; echo "::endgroup::"
+          grep -rl "tas2557@4c" arch/arm64/boot/dts/
           
       - uses: actions/upload-artifact@v4
         with:
