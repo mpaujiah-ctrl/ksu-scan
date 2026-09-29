@@ -290,6 +290,18 @@ jobs:
             echo "::endgroup::"
           done
       
+      - name: Detail15
+        run: |
+          echo "::group::CRDROID Makefile techpack audio - baris sm6150/kona/msm8998/tavil"
+          grep -rn "sm6150\.o\|kona\.o\|msm8998\.o\|tavil" crdroid/techpack/audio/asoc/Makefile crdroid/techpack/audio/4.0/asoc/Makefile 2>/dev/null
+          echo "::endgroup::"
+          echo "::group::EVOX Makefile"
+          grep -rn "sm6150\.o\|kona\.o\|msm8998\.o\|tavil" evox/techpack/audio/asoc/Makefile evox/techpack/audio/4.0/asoc/Makefile 2>/dev/null
+          echo "::endgroup::"
+          echo "::group::Kconfig audio - baris SND_SOC_SM6150 / KONA / MSM8998"
+          grep -rn "SND_SOC_SM6150\|SND_SOC_KONA\|SND_SOC_MSM8998" crdroid/arch/arm64/configs/vendor/*.config crdroid/arch/arm64/configs/vendor/xiaomi/*.config crdroid/arch/arm64/configs/vendor/*defconfig 2>/dev/null
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
