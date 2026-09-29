@@ -236,6 +236,19 @@ jobs:
           cd ..
           echo "::endgroup::"
       
+      - name: Detail11
+        run: |
+          D="techpack/audio/asoc/codecs/cs35l41"
+          echo "::group::Isi folder CRDROID"
+          ls -la crdroid/$D
+          echo "::endgroup::"
+          echo "::group::Isi folder EVOX"
+          ls -la evox/$D
+          echo "::endgroup::"
+          echo "::group::diff daftar file"
+          diff <(ls crdroid/$D) <(ls evox/$D) || true
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
