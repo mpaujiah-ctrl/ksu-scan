@@ -72,7 +72,18 @@ jobs:
           { echo "##### CRDROID"; cd crdroid; git grep -n -B1 -A6 -E "$P" -- $F || true; cd ..
             echo "##### EVOX";    cd evox;    git grep -n -B1 -A6 -E "$P" -- $F drivers/input/input.c kernel/sys.c kernel/reboot.c fs/exec.c || true
           } > hasil.txt
+
+      - name: Detail2
+        run: |
+          grep -nE "CONFIG_QSEECOM|CONFIG_QCOM_SCM|CONFIG_MSM_TZ_LOG|CONFIG_QCOM_SMCINVOKE|CONFIG_QCOM_FASTRPC|CONFIG_MSM_ADSPRPC|CONFIG_QCOM_QSEECOM" <semua-file-defconfig-crdroid> > crdroid_tz.txt
+
+          grep -nE "CONFIG_QSEECOM|CONFIG_QCOM_SCM|CONFIG_MSM_TZ_LOG|CONFIG_QCOM_SMCINVOKE|CONFIG_QCOM_FASTRPC|CONFIG_MSM_ADSPRPC|CONFIG_QCOM_QSEECOM" <semua-file-defconfig-evox> > evox_tz.txt
+          
+          diff crdroid_tz.txt evox_tz.txt
+          
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
           path: hasil.txt
+                crdroid_tz.txt
+                evox_tz.txt
