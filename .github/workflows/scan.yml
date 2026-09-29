@@ -290,16 +290,23 @@ jobs:
             echo "::endgroup::"
           done
       
-      - name: Detail15
+      - name: Detail16
         run: |
-          echo "::group::CRDROID Makefile techpack audio - baris sm6150/kona/msm8998/tavil"
-          grep -rn "sm6150\.o\|kona\.o\|msm8998\.o\|tavil" crdroid/techpack/audio/asoc/Makefile crdroid/techpack/audio/4.0/asoc/Makefile 2>/dev/null
+          echo "::group::cari semua Makefile di folder audio CRDROID"
+          find crdroid/techpack/audio -maxdepth 3 -iname "Makefile" 2>/dev/null
           echo "::endgroup::"
-          echo "::group::EVOX Makefile"
-          grep -rn "sm6150\.o\|kona\.o\|msm8998\.o\|tavil" evox/techpack/audio/asoc/Makefile evox/techpack/audio/4.0/asoc/Makefile 2>/dev/null
+          echo "::group::isi Makefile yang menyebut sm6150/kona/msm8998/tavil - CRDROID"
+          for f in $(find crdroid/techpack/audio -maxdepth 3 -iname "Makefile" 2>/dev/null); do
+            grep -Hn "sm6150\|kona\|msm8998\|tavil" "$f" || true
+          done
+          echo "::endgroup::"
+          echo "::group::isi Makefile yang menyebut sm6150/kona/msm8998/tavil - EVOX"
+          for f in $(find evox/techpack/audio -maxdepth 3 -iname "Makefile" 2>/dev/null); do
+            grep -Hn "sm6150\|kona\|msm8998\|tavil" "$f" || true
+          done
           echo "::endgroup::"
           echo "::group::Kconfig audio - baris SND_SOC_SM6150 / KONA / MSM8998"
-          grep -rn "SND_SOC_SM6150\|SND_SOC_KONA\|SND_SOC_MSM8998" crdroid/arch/arm64/configs/vendor/*.config crdroid/arch/arm64/configs/vendor/xiaomi/*.config crdroid/arch/arm64/configs/vendor/*defconfig 2>/dev/null
+          grep -rn "SND_SOC_SM6150\|SND_SOC_KONA\|SND_SOC_MSM8998" crdroid/arch/arm64/configs/vendor/ 2>/dev/null || true
           echo "::endgroup::"
       
       - uses: actions/upload-artifact@v4
