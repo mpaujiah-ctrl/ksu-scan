@@ -75,11 +75,16 @@ jobs:
 
       - name: Detail2
         run: |
-          grep -nE "CONFIG_QSEECOM|CONFIG_QCOM_SCM|CONFIG_MSM_TZ_LOG|CONFIG_QCOM_SMCINVOKE|CONFIG_QCOM_FASTRPC|CONFIG_MSM_ADSPRPC|CONFIG_QCOM_QSEECOM" <semua-file-defconfig-crdroid> > crdroid_tz.txt
-
-          grep -nE "CONFIG_QSEECOM|CONFIG_QCOM_SCM|CONFIG_MSM_TZ_LOG|CONFIG_QCOM_SMCINVOKE|CONFIG_QCOM_FASTRPC|CONFIG_MSM_ADSPRPC|CONFIG_QCOM_QSEECOM" <semua-file-defconfig-evox> > evox_tz.txt
-          
-          diff crdroid_tz.txt evox_tz.txt
+          P='CONFIG_QSEECOM|CONFIG_QCOM_SCM|CONFIG_MSM_TZ_LOG|CONFIG_QCOM_SMCINVOKE|CONFIG_QCOM_FASTRPC|CONFIG_MSM_ADSPRPC|CONFIG_QCOM_QSEECOM'
+          F="arch/arm64/configs/vendor/sm8150-perf_defconfig arch/arm64/configs/vendor/xiaomi/sm8150-common.config arch/arm64/configs/vendor/xiaomi/cepheus.config"
+          cd crdroid
+          grep -nE "$P" $F > ../crdroid_tz.txt || true
+          cd ../evox
+          grep -nE "$P" $F > ../evox_tz.txt || true
+          cd ..
+          echo "::group::crdroid_tz.txt"; cat crdroid_tz.txt; echo "::endgroup::"
+          echo "::group::evox_tz.txt"; cat evox_tz.txt; echo "::endgroup::"
+          echo "::group::DIFF"; diff crdroid_tz.txt evox_tz.txt || true; echo "::endgroup::"
           
       - uses: actions/upload-artifact@v4
         with:
