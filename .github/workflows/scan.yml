@@ -309,6 +309,19 @@ jobs:
           grep -rn "SND_SOC_SM6150\|SND_SOC_KONA\|SND_SOC_MSM8998" crdroid/arch/arm64/configs/vendor/ 2>/dev/null || true
           echo "::endgroup::"
       
+      - name: Detail17
+        run: |
+          F="arch/arm64/configs/vendor/sm8150-perf_defconfig arch/arm64/configs/vendor/xiaomi/sm8150-common.config arch/arm64/configs/vendor/xiaomi/cepheus.config"
+          echo "::group::CRDROID SLIMBUS/SLIM config"
+          cd crdroid; grep -h "SLIM" $F | sort > ../c_slim.txt; cd ..
+          echo "::endgroup::"
+          echo "::group::EVOX SLIMBUS/SLIM config"
+          cd evox; grep -h "SLIM" $F | sort > ../e_slim.txt; cd ..
+          echo "::endgroup::"
+          echo "::group::DIFF"
+          diff c_slim.txt e_slim.txt || true
+          echo "::endgroup::"
+      
       - uses: actions/upload-artifact@v4
         with:
           name: hasil
