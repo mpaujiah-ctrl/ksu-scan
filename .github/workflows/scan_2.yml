@@ -17,6 +17,6 @@ jobs:
           grep -rn "ksu_selinux_hide_handle" .
           sed -n 365,385p kernel/sulog/event.c
           grep -rn "user_arg_ptr" kernel/sulog/ *.h | head -20
-          grep -n "kernel/sulog\|selinux" Makefile Kconfig
+          grep -n "kernel/sulog\|selinux" kernel/Makefile kernel/Kconfig
                    
       
