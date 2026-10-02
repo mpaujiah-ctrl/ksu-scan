@@ -14,7 +14,7 @@ jobs:
       - name: Scan
         run: |          
           cd sukisu
-          grep -n "#include\|selinux_hide" /kernel/runtime/ksud.c | head -40
+          grep -n "#include\|selinux_hide" kernel/runtime/ksud.c | head -40
           grep -rn "selinux_hide" /kernel/Makefile /kernel/Kbuild 2>/dev/null         
           grep -q '#define USER_ARG_NULL user_arg_null_ptr()' kernel/sulog/event.c
           sed -i 's/#define USER_ARG_NULL user_arg_null_ptr()/#define USER_ARG_NULL (*user_arg_null_ptr())/' kernel/sulog/event.c       
