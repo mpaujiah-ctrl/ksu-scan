@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: https://github.com/mpaujiah-ctrl/SukiSU-Ultra
+          repository: mpaujiah-ctrl/SukiSU-Ultra
           ref: "builtin"
           path: sukisu
           fetch-depth: 1
