@@ -13,37 +13,8 @@ jobs:
       
       - name: Scan
         run: |          
-          cd sukisu
-          echo "=== remote & log ==="
-          git remote -v || true
-          git log --oneline -15 || true
-          echo "=== branch tersedia ==="
-          git branch -a || true
-
-          echo "=== KSUN / KernelSU-Next di kode (nama file + baris) ==="
-          grep -rniE "ksunext|kernelsu[-_ ]next|KSUN" . --include=* -I \
-            --exclude-dir=.git | head -60 || true
-
-          echo "=== 'SukiSU' di kode ==="
-          grep -rniE "sukisu" kernel --exclude-dir=.git -I | head -30 || true
-
-          echo "=== Kconfig: prompt/judul ==="
-          grep -n "prompt\|bool \"\|menu \"\|help" kernel/Kconfig | head -40 || true
-
-          echo "=== apk_sign.c: signature manager ==="
-          grep -n -iE "size|hash|expected|sukisu|ksun|next" kernel/manager/apk_sign.c | head -40 || true
-
-          echo "=== README judul ==="
-          head -20 README.md || true
-
-          echo "=== perbandingan dengan upstream ==="
-          if [ -d ../upstream/kernel ]; then
-            cd ..
-            git -C upstream log --oneline -3 || true
-            diff -rq upstream/kernel sukisu/kernel --exclude=.git | head -40 || true
-          else
-            echo "upstream branch builtin tidak ada / gagal di-checkout"
-          fi
-         
+          cd sukisu/kernel
+          grep -n "VERSION\|rev-list\|git.*count\|KSU_VERSION" Makefile | head -30
+          
                    
       
