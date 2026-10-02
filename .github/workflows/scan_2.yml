@@ -12,8 +12,7 @@ jobs:
           fetch-depth: 1
       
       - name: Scan
-        run: |
-          PAT='ksu_|susfs|CONFIG_KSU|CONFIG_KERNELSU'
+        run: |          
           cd crdroid
           grep -rn "ksu_selinux_hide_handle" .
           sed -n 365,385p sulog/event.c
