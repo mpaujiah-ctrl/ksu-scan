@@ -14,9 +14,14 @@ jobs:
       - name: Scan
         run: |          
           cd sukisu
-          grep -rn "ksu_selinux_hide_handle" .
-          sed -n 365,385p kernel/sulog/event.c
-          grep -rn "user_arg_ptr" kernel/sulog/ *.h | head -20
-          grep -n "kernel/sulog\|selinux" kernel/Makefile kernel/Kconfig
+          grep -n "#include\|selinux_hide" /tmp/sukisu/kernel/runtime/ksud.c | head -40
+          grep -rn "selinux_hide" /tmp/sukisu/kernel/Makefile /tmp/sukisu/kernel/Kbuild 2>/dev/null
+          f=drivers/kernelsu/sulog/event.c
+          grep -q '#define USER_ARG_NULL user_arg_null_ptr()' "$f"
+          sed -i 's/#define USER_ARG_NULL user_arg_null_ptr()/#define USER_ARG_NULL (*user_arg_null_ptr())/' "$f"
+          f=drivers/kernelsu/runtime/ksud.c
+          grep -q 'selinux_hide.h' "$f" || sed -i '0,/^#include/s//#include "..\/feature\/selinux_hide.h"\n#include/' "$f"
+          grep -n "^#\s*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" /tmp/sukisu/kernel/sulog/event.c
+          
                    
       
