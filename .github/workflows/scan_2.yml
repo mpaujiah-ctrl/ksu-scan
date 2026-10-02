@@ -14,14 +14,7 @@ jobs:
       - name: Scan
         run: |          
           cd sukisu/kernel
-          echo "=== siapa yang include selinux_hide.h ==="
-          grep -rn "selinux_hide.h" . || true
-          echo "=== ksud.c baris 1-60 ==="
-          sed -n 1,60p runtime/ksud.c
-          echo "=== header selinux_hide.h ==="
-          cat feature/selinux_hide.h
-          echo "=== Makefile: cara objek dikumpulkan ==="
-          grep -n "wildcard\|-objs\|feature/\|runtime/" Makefile || true
-          
+          grep -n "obj-\|\.o\b" Makefile | head -50
+         
                    
       
