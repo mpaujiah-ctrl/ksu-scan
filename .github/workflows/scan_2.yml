@@ -16,10 +16,10 @@ jobs:
           cd sukisu
           grep -n "#include\|selinux_hide" kernel/runtime/ksud.c | head -40
           grep -rn "selinux_hide" kernel/Makefile kernel/Kbuild 2>/dev/null
-          f=drivers/kernelsu/sulog/event.c
+          f=kernel/sulog/event.c
           grep -q '#define USER_ARG_NULL user_arg_null_ptr()' "$f"
           sed -i 's/#define USER_ARG_NULL user_arg_null_ptr()/#define USER_ARG_NULL (*user_arg_null_ptr())/' "$f"
-          f=drivers/kernelsu/runtime/ksud.c
+          f=kernel/runtime/ksud.c
           grep -q 'selinux_hide.h' "$f" || sed -i '0,/^#include/s//#include "..\/feature\/selinux_hide.h"\n#include/' "$f"
           grep -n "^#\s*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" kernel/sulog/event.c
           
