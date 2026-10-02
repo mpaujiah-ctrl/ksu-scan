@@ -16,9 +16,9 @@ jobs:
           cd sukisu
           grep -n "#include\|selinux_hide" kernel/runtime/ksud.c | head -40
           grep -rn "selinux_hide" kernel/Makefile kernel/Kbuild 2>/dev/null         
-          grep -q '#define USER_ARG_NULL user_arg_null_ptr()' "kernel/sulog/event.c"
-          sed -i 's/#define USER_ARG_NULL user_arg_null_ptr()/#define USER_ARG_NULL (*user_arg_null_ptr())/' "kernel/sulog/event.c"         
-          grep -q 'selinux_hide.h' "$f" || sed -i '0,/^#include/s//#include "..\/feature\/selinux_hide.h"\n#include/' "kernel/runtime/ksud.c"
+          grep -q '#define USER_ARG_NULL user_arg_null_ptr()' kernel/sulog/event.c
+          sed -i 's/#define USER_ARG_NULL user_arg_null_ptr()/#define USER_ARG_NULL (*user_arg_null_ptr())/' kernel/sulog/event.c       
+          grep -q 'selinux_hide.h' "$f" || sed -i '0,/^#include/s//#include "..\/feature\/selinux_hide.h"\n#include/' kernel/runtime/ksud.c
           grep -n "^#\s*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" kernel/sulog/event.c
           
                    
