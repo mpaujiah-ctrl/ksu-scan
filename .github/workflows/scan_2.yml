@@ -13,13 +13,15 @@ jobs:
       
       - name: Scan
         run: |          
-          cd sukisu
-          grep -n "#include\|selinux_hide" kernel/runtime/ksud.c | head -40
-          grep -rn "selinux_hide" kernel/Makefile kernel/Kbuild 2>/dev/null         
-          grep -q '#define USER_ARG_NULL user_arg_null_ptr()' kernel/sulog/event.c
-          sed -i 's/#define USER_ARG_NULL user_arg_null_ptr()/#define USER_ARG_NULL (*user_arg_null_ptr())/' kernel/sulog/event.c       
-          grep -q 'selinux_hide.h' "$f" || sed -i '0,/^#include/s//#include "..\/feature\/selinux_hide.h"\n#include/' kernel/runtime/ksud.c
-          grep -n "^#\s*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" kernel/sulog/event.c
+          cd sukisu/kernel
+          echo "=== ksud.c includes ==="
+          grep -n "#include\|selinux_hide" runtime/ksud.c | head -40 || true
+          echo "=== Makefile/Kbuild selinux_hide ==="
+          grep -rn "selinux_hide" Makefile Kbuild 2>/dev/null || true
+          echo "=== event.c preprocessor ==="
+          grep -n "^[[:space:]]*#[[:space:]]*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" sulog/event.c || true
+          echo "=== event.c 355-425 ==="
+          sed -n 355,425p sulog/event.c
           
                    
       
