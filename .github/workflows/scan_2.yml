@@ -14,14 +14,14 @@ jobs:
       - name: Scan
         run: |          
           cd sukisu/kernel
-          echo "=== ksud.c includes ==="
-          grep -n "#include\|selinux_hide" runtime/ksud.c | head -40 || true
-          echo "=== Makefile/Kbuild selinux_hide ==="
-          grep -rn "selinux_hide" Makefile Kbuild 2>/dev/null || true
-          echo "=== event.c preprocessor ==="
-          grep -n "^[[:space:]]*#[[:space:]]*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" sulog/event.c || true
-          echo "=== event.c 355-425 ==="
-          sed -n 355,425p sulog/event.c
+          echo "=== siapa yang include selinux_hide.h ==="
+          grep -rn "selinux_hide.h" . || true
+          echo "=== ksud.c baris 1-60 ==="
+          sed -n 1,60p runtime/ksud.c
+          echo "=== header selinux_hide.h ==="
+          cat feature/selinux_hide.h
+          echo "=== Makefile: cara objek dikumpulkan ==="
+          grep -n "wildcard\|-objs\|feature/\|runtime/" Makefile || true
           
                    
       
