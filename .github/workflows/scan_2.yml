@@ -13,7 +13,7 @@ jobs:
       
       - name: Scan
         run: |          
-          cd crdroid
+          cd sukisu
           grep -rn "ksu_selinux_hide_handle" .
           sed -n 365,385p sulog/event.c
           grep -rn "user_arg_ptr" sulog/ *.h | head -20
