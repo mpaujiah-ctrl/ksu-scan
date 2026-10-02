@@ -14,7 +14,10 @@ jobs:
       - name: Scan
         run: |          
           cd sukisu/kernel
-          grep -n "#include" ksu.c || true
+          echo "=== ksu.c 30-37 ==="; sed -n 30,37p ksu.c
+          echo "=== ksu.c 83-90 ==="; sed -n 83,90p ksu.c
+          echo "=== kondisi di ksu.c ==="; grep -n "^[[:space:]]*#[[:space:]]*\(if\|ifdef\|ifndef\|else\|elif\|endif\)" ksu.c || true
+          echo "=== config selinux_hide ==="; grep -rn -i "selinux_hide\|SELINUX_HIDE" Kconfig Makefile ksu.c include/ || true
          
                    
       
