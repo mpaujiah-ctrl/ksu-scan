@@ -14,7 +14,7 @@ jobs:
       - name: Scan
         run: |          
           cd sukisu/kernel
-          grep -n "obj-\|\.o\b" Makefile | head -50
+          grep -n "objs\|ksu-y\|wildcard\|\.c=\|\.o" Makefile || true
          
                    
       
