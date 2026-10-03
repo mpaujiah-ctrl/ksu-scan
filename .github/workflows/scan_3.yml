@@ -16,3 +16,21 @@ jobs:
           ref: "16.0-exp"
           path: crdroid_340
           fetch-depth: 1
+     
+      - name: Scan
+        run: |
+          cd crdroid_330
+          grep -Rnw . \
+          --exclude-dir=.git \
+          -e 'susfs_is_current_ksu_domain' \
+          -e 'susfs_ksu_sid' \
+          -e 'susfs_priv_app_sid' \
+          -e 'try_umount'
+
+          cd ../crdroid_340
+          grep -Rnw . \
+          --exclude-dir=.git \
+          -e 'susfs_is_current_ksu_domain' \
+          -e 'susfs_ksu_sid' \
+          -e 'susfs_priv_app_sid' \
+          -e 'try_umount'
