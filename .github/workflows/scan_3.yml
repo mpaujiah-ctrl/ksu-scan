@@ -1,0 +1,18 @@
+name: scan-ksu
+on: workflow_dispatch
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: mpaujiah-ctrl/android_kernel_xiaomi_crdroid
+          ref: "16.0"
+          path: crdroid_330
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: mpaujiah-ctrl/android_kernel_xiaomi_crdroid
+          ref: "16.0-exp"
+          path: crdroid_340
+          fetch-depth: 1
