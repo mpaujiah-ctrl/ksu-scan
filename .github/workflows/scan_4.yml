@@ -12,6 +12,7 @@ jobs:
           fetch-depth: 1
       
       - name: Scan
-        run: |                    
+        run: |      
+          cd sukisu
           grep -rn "ksu_manager_cmd\|KSU_IOCTL_MANAGER\b\|TRACK_THRONE_FORCE_SYNCHRONOUS\|KSU_FEATURE_SELINUX_HIDE" kernel/
           git diff --stat https://github.com/SukiSU-Ultra/SukiSU-Ultra/tree/builtin HEAD -- kernel/
