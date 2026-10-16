@@ -14,11 +14,9 @@ jobs:
       - name: Scan
         run: |      
           cd sukisu
-          grep -rn "ksu_manager_cmd\|KSU_IOCTL_MANAGER\b\|TRACK_THRONE_FORCE_SYNCHRONOUS\|KSU_FEATURE_SELINUX_HIDE" kernel/
-          cd drivers/kernelsu
+          grep -rn "ksu_manager_cmd\|KSU_IOCTL_MANAGER\b\|TRACK_THRONE_FORCE_SYNCHRONOUS\|KSU_FEATURE_SELINUX_HIDE" kernel/          
           grep -rn "KSU_IOCTL_KPM\|ksu_manager_cmd\|KSU_IOCTL_MANAGER\b\|KSU_FEATURE_SELINUX_HIDE\|TRACK_THRONE_FORCE_SYNCHRONOUS" .
-          git clone https://github.com/mpaujiah-ctrl/SukiSU-Ultra
-          cd SukiSU-Ultra
+         
           git remote add upstream https://github.com/SukiSU-Ultra/SukiSU-Ultra.git
           git fetch upstream
           git remote -v    # cek, harus ada origin dan upstream
